@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tetris.Data;
+using TetrisAdvanced.Data;
 
 namespace TetrisAdvanced.Interfaces
 {
