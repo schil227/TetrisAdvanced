@@ -19,9 +19,20 @@ namespace TetrisAdvanced.Services
 
             foreach (var box in shape.Boxes)
             {
-                // calculate R (radius between shape center and box coordinates),
-                // y = r sin (theta)
-                // x = r cos (theta)
+                /*  |
+                 *  |       ○(x, y)
+                 *  |       | \
+                 *  |       |  \  radius
+                 *  |       |   \
+                 *  |       ╚----○ (CenterX, CenterY)
+                 *  |
+                 * -╬----------------
+                 *  |
+                 * */
+                var radius = Math.Sqrt(Math.Pow(box.X - shape.CenterX, 2) + Math.Pow(box.Y - shape.CenterY, 2));
+
+                box.X = Convert.ToInt32(shape.CenterX + radius * Math.Cos(angle));
+                box.Y = Convert.ToInt32(shape.CenterY + radius * Math.Sin(angle));
             }
         }
     }
