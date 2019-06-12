@@ -35,7 +35,7 @@ namespace TetrisAdvanced.Services
                  * -╬----------------
                  *  |
                  * */
-                var radius = mathHelperService.CalculateRadius(box.X, shape.CenterX, box.Y, shape.CenterY);
+                var radius = mathHelperService.CalculateRadius(box.X, box.Y, shape.CenterX, shape.CenterY);
 
                 if (radius == 0)
                 {
