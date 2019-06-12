@@ -1,9 +1,10 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using TetrisAdvanced.Data;
 using TetrisAdvanced.Interfaces;
 using TetrisAdvanced.Services;
+using TetrisAdvanced.Services.Helpers;
 
 namespace Tests.Services
 {
@@ -14,7 +15,7 @@ namespace Tests.Services
         [SetUp]
         public void Setup()
         {
-            sut = new ShapeService();
+            sut = new ShapeService(new MathHelperService());
         }
 
         [Test]
@@ -52,7 +53,7 @@ namespace Tests.Services
             };
 
             // Act
-            sut.Rotate(shape, Direction.RIGHT);
+            sut.Rotate(shape, RotationDirection.CLOCKWISE);
 
             // Assert
             Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 0 && b.Y == 2) != null);
@@ -96,10 +97,10 @@ namespace Tests.Services
             };
 
             // Act
-            sut.Rotate(shape, Direction.RIGHT);
-            sut.Rotate(shape, Direction.RIGHT);
-            sut.Rotate(shape, Direction.RIGHT);
-            sut.Rotate(shape, Direction.RIGHT);
+            sut.Rotate(shape, RotationDirection.CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.CLOCKWISE);
 
             // Assert
             Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 0 && b.Y == 0) != null);
@@ -143,10 +144,10 @@ namespace Tests.Services
             };
 
             // Act
-            sut.Rotate(shape, Direction.LEFT);
-            sut.Rotate(shape, Direction.LEFT);
-            sut.Rotate(shape, Direction.LEFT);
-            sut.Rotate(shape, Direction.LEFT);
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
 
             // Assert
             Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 0 && b.Y == 0) != null);
@@ -190,8 +191,8 @@ namespace Tests.Services
             };
 
             // Act
-            sut.Rotate(shape, Direction.LEFT);
-            sut.Rotate(shape, Direction.RIGHT);
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.CLOCKWISE);
 
             // Assert
             Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 0 && b.Y == 0) != null);

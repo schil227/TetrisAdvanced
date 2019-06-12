@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TetrisAdvanced.Interfaces;
+using TetrisAdvanced.Interfaces.Helpers;
+using TetrisAdvanced.Services;
+using TetrisAdvanced.Services.Helpers;
 
 namespace TetrisAdvanced
 {
@@ -6,7 +10,8 @@ namespace TetrisAdvanced
     {
         public static void AddServices(this IServiceCollection services)
         {
-
+            services.AddTransient<IMathHelperService, MathHelperService>();
+            services.AddTransient<IShapeService, ShapeService>();
         }
     }
 }

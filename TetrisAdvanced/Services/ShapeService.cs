@@ -1,16 +1,24 @@
 ﻿using System;
 using TetrisAdvanced.Data;
 using TetrisAdvanced.Interfaces;
+using TetrisAdvanced.Interfaces.Helpers;
 
 namespace TetrisAdvanced.Services
 {
     public class ShapeService : IShapeService
     {
-        public void Rotate(Shape shape, Direction direction)
+        private readonly IMathHelperService mathHelperService;
+
+        public ShapeService(IMathHelperService mathHelperService)
+        {
+            this.mathHelperService = mathHelperService;
+        }
+
+        public void Rotate(Shape shape, RotationDirection direction)
         {
             var angle = Math.PI / 4;
 
-            if (direction == Direction.LEFT)
+            if (direction == RotationDirection.COUNTER_CLOCKWISE)
             {
                 angle = Math.PI * 5 / 4; // Possibly wrong, double check
             }
@@ -19,15 +27,15 @@ namespace TetrisAdvanced.Services
             {
                 /*  |
                  *  |       ○(x, y)
-                 *  |       | \
-                 *  |       |  \  radius
-                 *  |       |  θ\
-                 *  |       ╚----○ (CenterX, CenterY)
+                 *  |         \
+                 *  |          \  radius
+                 *  |          θ\
+                 *  |       -----○ (CenterX, CenterY)
                  *  |
                  * -╬----------------
                  *  |
                  * */
-                var radius = Math.Sqrt(Math.Pow(box.X - shape.CenterX, 2) + Math.Pow(box.Y - shape.CenterY, 2));
+                var radius = mathHelperService.CalculateRadius(box.X, shape.CenterX, box.Y, shape.CenterY);
 
                 if (radius == 0)
                 {
@@ -35,8 +43,9 @@ namespace TetrisAdvanced.Services
                     continue;
                 }
 
-                // adds θ offset: Cos^-1(Adjcent / Hyp)
-                angle += Math.Acos(Math.Abs(box.X - shape.CenterX) / radius);
+                angle = mathHelperService.CalculateAdjacentAngleInRadians(Math.Abs(box.X - shape.CenterX), radius);
+
+                angle = mathHelperService.CalculateAngleOfRotation(box, shape, direction, angle);
 
                 box.X = Convert.ToInt32(shape.CenterX + radius * Math.Cos(angle));
                 box.Y = Convert.ToInt32(shape.CenterY + radius * Math.Sin(angle));
