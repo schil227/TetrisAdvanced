@@ -19,6 +19,11 @@ namespace TetrisAdvanced.Services.Helpers
              *    Calculates θ in radians
              */
 
+            if (hypotenuse == 0)
+            {
+                throw new DivideByZeroException("Hypotenuse cannot be zero");
+            }
+
             return Math.Acos(adjacent / hypotenuse);
         }
 
@@ -42,6 +47,16 @@ namespace TetrisAdvanced.Services.Helpers
              *                         |
              *                       3π/2
              */
+
+            if (box == null)
+            {
+                throw new ArgumentNullException(nameof(box));
+            }
+
+            if (shape == null)
+            {
+                throw new ArgumentNullException(nameof(shape));
+            }
 
             bool xIsPositive = box.X - shape.CenterX >= 0;
             bool yIsPositive = box.Y - shape.CenterY >= 0;
