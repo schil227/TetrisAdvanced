@@ -19,7 +19,7 @@ namespace Tests.Services
         }
 
         [Test]
-        public void Rotate_WhenDirectionIsRight_RotatesShapeToTheRight()
+        public void Rotate_WhenDirectionIsClockwise_RotatesShapeClockwise()
         {
             // Arrange
             var shape = new Shape
@@ -63,7 +63,96 @@ namespace Tests.Services
         }
 
         [Test]
-        public void Rotate_WhenShapeRotatedRightFourTimes_IsTheSameAsTheOriginalOrientation()
+        public void Rotate_WhenDirectionIsCounterClockwise_RotatesShapeCounterClockwise()
+        {
+            // Arrange
+            var shape = new Shape
+            {
+                //╚╗ 
+                Boxes = new List<Box>
+                {
+                    new Box
+                    {
+                        X = 0,
+                        Y = 0
+                    },
+                    new Box
+                    {
+                        X = 0,
+                        Y = 1
+                    },
+                    new Box
+                    {
+                        X = 1,
+                        Y = 1
+                    },
+                    new Box
+                    {
+                        X = 1,
+                        Y = 2
+                    }
+                },
+                CenterX = 1,
+                CenterY = 1
+            };
+
+            // Act
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
+
+            // Assert
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 0 && b.Y == 1) != null);
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 1 && b.Y == 1) != null);
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 1 && b.Y == 0) != null);
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 2 && b.Y == 0) != null);
+        }
+
+        [Test]
+        public void Rotate_WhenRotatedTwice_RotatesShapeUpsideDown()
+        {
+            // Arrange
+            var shape = new Shape
+            {
+                //╚╗ 
+                Boxes = new List<Box>
+                {
+                    new Box
+                    {
+                        X = 0,
+                        Y = 0
+                    },
+                    new Box
+                    {
+                        X = 0,
+                        Y = 1
+                    },
+                    new Box
+                    {
+                        X = 1,
+                        Y = 1
+                    },
+                    new Box
+                    {
+                        X = 1,
+                        Y = 2
+                    }
+                },
+                CenterX = 1,
+                CenterY = 1
+            };
+
+            // Act
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
+            sut.Rotate(shape, RotationDirection.COUNTER_CLOCKWISE);
+
+            // Assert
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 1 && b.Y == 0) != null);
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 1 && b.Y == 1) != null);
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 2 && b.Y == 1) != null);
+            Assert.True(shape.Boxes.SingleOrDefault(b => b.X == 2 && b.Y == 2) != null);
+        }
+
+        [Test]
+        public void Rotate_WhenShapeRotatedClockwiseFourTimes_IsTheSameAsTheOriginalOrientation()
         {
             // Arrange
             var shape = new Shape
@@ -110,7 +199,7 @@ namespace Tests.Services
         }
 
         [Test]
-        public void Rotate_WhenShapeRotatedLeftFourTimes_IsTheSameAsTheOriginalOrientation()
+        public void Rotate_WhenShapeRotatedCounterClockwiseFourTimes_IsTheSameAsTheOriginalOrientation()
         {
             // Arrange
             var shape = new Shape
