@@ -1,4 +1,5 @@
-﻿using TetrisAdvanced.Data;
+﻿using System;
+using TetrisAdvanced.Data;
 using TetrisAdvanced.Data.Enumerators;
 using TetrisAdvanced.Interfaces;
 
@@ -26,9 +27,43 @@ namespace TetrisAdvanced.Services
             return true;
         }
 
-        public void HandleCompletedRows(Field field)
+        public RowProcessingResult HandleCompletedRows(Field field)
         {
-            throw new System.NotImplementedException();
+            int rowsCompleted = 0;
+
+            for (int i = field.Height - 1; i >= 0; i--)
+            {
+                int boxesFilled = 0;
+
+                for (int j = 0; j < field.Width; j++)
+                {
+                    if (!field.Grid[i, j].IsOpen)
+                    {
+                        boxesFilled++;
+                    }
+                }
+
+                if (boxesFilled == 0)
+                {
+                    // Empty row, no further processing needed
+                    break;
+                }
+                else if (boxesFilled == field.Width)
+                {
+                    // Row filled
+                    rowsCompleted = 1;
+                }
+                else if (rowsCompleted > 0)
+                {
+                    // Shift down
+                    for (int j = 0; j < field.Width; j++)
+                    {
+                        field.Grid[i, j].Y += rowsCompleted;
+                    }
+                }
+            }
+
+            return (RowProcessingResult)Enum.ToObject(typeof(RowProcessingResult), 1);
         }
 
         public ActiveShapeStatus MoveShape(Field field, MoveDirection direction, bool isForced)

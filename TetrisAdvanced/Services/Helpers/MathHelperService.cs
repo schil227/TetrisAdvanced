@@ -1,5 +1,6 @@
 ﻿using System;
 using TetrisAdvanced.Data;
+using TetrisAdvanced.Data.Enumerators;
 using TetrisAdvanced.Interfaces.Helpers;
 
 namespace TetrisAdvanced.Services.Helpers
