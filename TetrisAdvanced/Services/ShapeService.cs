@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TetrisAdvanced.Data;
+using TetrisAdvanced.Data.Enumerators;
 using TetrisAdvanced.Interfaces;
 using TetrisAdvanced.Interfaces.Helpers;
 

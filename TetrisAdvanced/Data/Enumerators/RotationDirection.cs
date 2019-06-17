@@ -1,4 +1,4 @@
-﻿namespace TetrisAdvanced.Data
+﻿namespace TetrisAdvanced.Data.Enumerators
 {
     public enum RotationDirection
     {

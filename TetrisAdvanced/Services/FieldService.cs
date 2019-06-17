@@ -1,4 +1,5 @@
 ﻿using TetrisAdvanced.Data;
+using TetrisAdvanced.Data.Enumerators;
 using TetrisAdvanced.Interfaces;
 
 namespace TetrisAdvanced.Services
@@ -30,10 +31,39 @@ namespace TetrisAdvanced.Services
             throw new System.NotImplementedException();
         }
 
-        public bool MoveShape(Field field, MoveDirection direction, bool isForced)
+        public ActiveShapeStatus MoveShape(Field field, MoveDirection direction, bool isForced)
         {
-            var xOffset = 0;
-            var yOffset = 0;
+            int xOffset, yOffset;
+
+            CalculateOffset(direction, out xOffset, out yOffset);
+
+            var shadowShape = shapeService.CopyShape(field.ActiveShape);
+
+            shapeService.MoveShape(shadowShape, xOffset, yOffset);
+
+            if (CanMoveShape(field, shadowShape))
+            {
+                shapeService.MoveShape(field.ActiveShape, xOffset, yOffset);
+            }
+            else if (isForced || direction == MoveDirection.DOWN)
+            {
+                foreach (var box in field.ActiveShape.Boxes)
+                {
+                    field.Grid[box.X + field.ShapeX, box.Y + field.ShapeY].IsOpen = false;
+                }
+
+                HandleCompletedRows(field);
+
+                return ActiveShapeStatus.INACTIVE;
+            }
+
+            return ActiveShapeStatus.ACTIVE;
+        }
+
+        private void CalculateOffset(MoveDirection direction, out int xOffset, out int yOffset)
+        {
+            xOffset = 0;
+            yOffset = 0;
 
             if (direction == MoveDirection.DOWN)
             {
@@ -47,28 +77,6 @@ namespace TetrisAdvanced.Services
             {
                 xOffset = 1;
             }
-
-            var shadowShape = shapeService.CopyShape(field.ActiveShape);
-
-            shapeService.MoveShape(shadowShape, xOffset, yOffset);
-
-            if (CanMoveShape(field, shadowShape))
-            {
-                shapeService.MoveShape(field.ActiveShape, xOffset, yOffset);
-            }
-            else if (isForced)
-            {
-                foreach (var box in field.ActiveShape.Boxes)
-                {
-                    field.Grid[box.X + field.ShapeX, box.Y + field.ShapeY].IsOpen = false;
-                }
-
-                HandleCompletedRows(field);
-
-                return true;
-            }
-
-            return false;
         }
     }
 }
