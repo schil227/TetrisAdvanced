@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TetrisAdvanced.Data;
 using TetrisAdvanced.Interfaces;
 using TetrisAdvanced.Interfaces.Helpers;
@@ -33,6 +34,36 @@ namespace TetrisAdvanced.Services
                 box.X = Convert.ToInt32(shape.CenterX + radius * Math.Cos(angle));
                 box.Y = Convert.ToInt32(shape.CenterY + radius * Math.Sin(angle));
             }
+        }
+
+        public void MoveShape(Shape shape, int xOffset, int yOffset)
+        {
+            foreach (var box in shape.Boxes)
+            {
+                box.X += xOffset;
+                box.Y += yOffset;
+            }
+        }
+
+        public Shape CopyShape(Shape shape)
+        {
+            var movedBoxes = new List<Box>();
+
+            foreach (var box in shape.Boxes)
+            {
+                movedBoxes.Add(new Box
+                {
+                    X = box.X,
+                    Y = box.Y
+                });
+            }
+
+            return new Shape
+            {
+                CenterX = shape.CenterX,
+                CenterY = shape.CenterY,
+                Boxes = movedBoxes
+            };
         }
     }
 }

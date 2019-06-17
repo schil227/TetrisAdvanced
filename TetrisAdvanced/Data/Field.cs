@@ -2,8 +2,13 @@
 {
     public class Field
     {
-        int Width { get; set; }
-        int Height { get; set; }
-        SpaceBox[,] Grid { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int ShapeX { get; set; }
+        public int ShapeY { get; set; }
+        public int LinesCleared { get; set; }
+
+        public Shape ActiveShape { get; set; }
+        public SpaceBox[,] Grid { get; set; }
     }
 }
