@@ -1,5 +1,4 @@
-﻿using System;
-using TetrisAdvanced.Data;
+﻿using TetrisAdvanced.Data;
 using TetrisAdvanced.Data.Enumerators;
 using TetrisAdvanced.Interfaces;
 
@@ -43,27 +42,38 @@ namespace TetrisAdvanced.Services
                     }
                 }
 
-                if (boxesFilled == 0)
-                {
-                    // Empty row, no further processing needed
-                    break;
-                }
-                else if (boxesFilled == field.Width)
+                if (boxesFilled == field.Width)
                 {
                     // Row filled
-                    rowsCompleted = 1;
+                    rowsCompleted++;
                 }
                 else if (rowsCompleted > 0)
                 {
                     // Shift down
                     for (int j = 0; j < field.Width; j++)
                     {
-                        field.Grid[i, j].Y += rowsCompleted;
+                        //wrong - need to move position, and increment Y, as well as backfill
+                        field.Grid[i + rowsCompleted, j] = field.Grid[i, j];
+                        field.Grid[i + rowsCompleted, j].Y = i + rowsCompleted;
                     }
                 }
             }
 
-            return (RowProcessingResult)Enum.ToObject(typeof(RowProcessingResult), 1);
+            //clean up rows at the top
+            for (int i = 0; i < rowsCompleted; i++)
+            {
+                for (int j = 0; j < field.Width; j++)
+                {
+                    field.Grid[i, j] = new SpaceBox
+                    {
+                        Y = i,
+                        X = j,
+                        IsOpen = true
+                    };
+                }
+            }
+
+            return (RowProcessingResult)rowsCompleted;
         }
 
         public ActiveShapeStatus MoveShape(Field field, MoveDirection direction, bool isForced)
