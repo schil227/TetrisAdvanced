@@ -92,6 +92,283 @@ namespace TetrisAdvancedUnitTests.Services
         }
 
         [Test]
+        public void CanMoveShape_WhenShapeBoxXLessThanZero_ReturnsFalse()
+        {
+            // Arrange
+
+            //
+            // ░░░░
+            // ░░░░
+            // ░░░░
+            // ████
+            var field = new Field
+            {
+                Width = 4,
+                Height = 4,
+                ShapeX = 0,
+                ShapeY = 1,
+                ActiveShape = null,
+                Grid = new SpaceBox[4, 4]
+                {
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true}, new SpaceBox{ X = 3, Y = 0, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true}, new SpaceBox{ X = 3, Y = 1, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true}, new SpaceBox{ X = 3, Y = 2, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 3, IsOpen = false}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = false}, new SpaceBox{ X = 3, Y = 2, IsOpen = false} }
+                }
+            };
+
+            var shape = new Shape
+            {
+                CenterX = 1,
+                CenterY = 1,
+                Boxes = new List<Box>
+                {
+                    new Box{ X = -1, Y = 0},
+                    new Box{ X = 0, Y = 1},
+                    new Box{ X = 1, Y = 1},
+                    new Box{ X = 1, Y = 2},
+                }
+            };
+
+            // Act
+            var result = sut.CanMoveShape(field, shape);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void CanMoveShape_WhenShapeBoxXWiderThanField_ReturnsFalse()
+        {
+            // Arrange
+
+            //
+            // ░░░░
+            // ░░░░
+            // ░░░░
+            // ████
+            var field = new Field
+            {
+                Width = 4,
+                Height = 4,
+                ShapeX = 0,
+                ShapeY = 1,
+                ActiveShape = null,
+                Grid = new SpaceBox[4, 4]
+                {
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true}, new SpaceBox{ X = 3, Y = 0, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true}, new SpaceBox{ X = 3, Y = 1, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true}, new SpaceBox{ X = 3, Y = 2, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 3, IsOpen = false}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = false}, new SpaceBox{ X = 3, Y = 2, IsOpen = false} }
+                }
+            };
+
+            var shape = new Shape
+            {
+                CenterX = 1,
+                CenterY = 1,
+                Boxes = new List<Box>
+                {
+                    new Box{ X = 5, Y = 0},
+                    new Box{ X = 0, Y = 1},
+                    new Box{ X = 1, Y = 1},
+                    new Box{ X = 1, Y = 2},
+                }
+            };
+
+            // Act
+            var result = sut.CanMoveShape(field, shape);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void CanMoveShape_WhenShapeBoxXWideAsField_ReturnsFalse()
+        {
+            // Arrange
+
+            //
+            // ░░░░
+            // ░░░░
+            // ░░░░
+            // ████
+            var field = new Field
+            {
+                Width = 4,
+                Height = 4,
+                ShapeX = 0,
+                ShapeY = 1,
+                ActiveShape = null,
+                Grid = new SpaceBox[4, 4]
+                {
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true}, new SpaceBox{ X = 3, Y = 0, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true}, new SpaceBox{ X = 3, Y = 1, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true}, new SpaceBox{ X = 3, Y = 2, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 3, IsOpen = false}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = false}, new SpaceBox{ X = 3, Y = 2, IsOpen = false} }
+                }
+            };
+
+            var shape = new Shape
+            {
+                CenterX = 1,
+                CenterY = 1,
+                Boxes = new List<Box>
+                {
+                    new Box{ X = 4, Y = 0},
+                    new Box{ X = 0, Y = 1},
+                    new Box{ X = 1, Y = 1},
+                    new Box{ X = 1, Y = 2},
+                }
+            };
+
+            // Act
+            var result = sut.CanMoveShape(field, shape);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void CanMoveShape_WhenShapeBoxYLessThanZero_ReturnsFalse()
+        {
+            // Arrange
+
+            //
+            // ░░░░
+            // ░░░░
+            // ░░░░
+            // ████
+            var field = new Field
+            {
+                Width = 4,
+                Height = 4,
+                ShapeX = 0,
+                ShapeY = 1,
+                ActiveShape = null,
+                Grid = new SpaceBox[4, 4]
+                {
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true}, new SpaceBox{ X = 3, Y = 0, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true}, new SpaceBox{ X = 3, Y = 1, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true}, new SpaceBox{ X = 3, Y = 2, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 3, IsOpen = false}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = false}, new SpaceBox{ X = 3, Y = 2, IsOpen = false} }
+                }
+            };
+
+            var shape = new Shape
+            {
+                CenterX = 1,
+                CenterY = 1,
+                Boxes = new List<Box>
+                {
+                    new Box{ X = 0, Y = -2},
+                    new Box{ X = 0, Y = 1},
+                    new Box{ X = 1, Y = 1},
+                    new Box{ X = 1, Y = 2},
+                }
+            };
+
+            // Act
+            var result = sut.CanMoveShape(field, shape);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void CanMoveShape_WhenShapeBoxYWiderThanField_ReturnsFalse()
+        {
+            // Arrange
+
+            //
+            // ░░░░
+            // ░░░░
+            // ░░░░
+            // ████
+            var field = new Field
+            {
+                Width = 4,
+                Height = 4,
+                ShapeX = 0,
+                ShapeY = 1,
+                ActiveShape = null,
+                Grid = new SpaceBox[4, 4]
+                {
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true}, new SpaceBox{ X = 3, Y = 0, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true}, new SpaceBox{ X = 3, Y = 1, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true}, new SpaceBox{ X = 3, Y = 2, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 3, IsOpen = false}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = false}, new SpaceBox{ X = 3, Y = 2, IsOpen = false} }
+                }
+            };
+
+            var shape = new Shape
+            {
+                CenterX = 1,
+                CenterY = 1,
+                Boxes = new List<Box>
+                {
+                    new Box{ X = 0, Y = 5},
+                    new Box{ X = 0, Y = 1},
+                    new Box{ X = 1, Y = 1},
+                    new Box{ X = 1, Y = 2},
+                }
+            };
+
+            // Act
+            var result = sut.CanMoveShape(field, shape);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void CanMoveShape_WhenShapeBoxYWideAsField_ReturnsFalse()
+        {
+            // Arrange
+
+            //
+            // ░░░░
+            // ░░░░
+            // ░░░░
+            // ████
+            var field = new Field
+            {
+                Width = 4,
+                Height = 4,
+                ShapeX = 0,
+                ShapeY = 1,
+                ActiveShape = null,
+                Grid = new SpaceBox[4, 4]
+                {
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true}, new SpaceBox{ X = 3, Y = 0, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true}, new SpaceBox{ X = 3, Y = 1, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true}, new SpaceBox{ X = 3, Y = 2, IsOpen = true} },
+                    {new SpaceBox{ X = 0, Y = 3, IsOpen = false}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = false}, new SpaceBox{ X = 3, Y = 2, IsOpen = false} }
+                }
+            };
+
+            var shape = new Shape
+            {
+                CenterX = 1,
+                CenterY = 1,
+                Boxes = new List<Box>
+                {
+                    new Box{ X = 0, Y = 3},
+                    new Box{ X = 0, Y = 1},
+                    new Box{ X = 1, Y = 1},
+                    new Box{ X = 1, Y = 2},
+                }
+            };
+
+            // Act
+            var result = sut.CanMoveShape(field, shape);
+
+            // Assert
+            Assert.False(result);
+        }
+
+
+        [Test]
         public void CanMoveShape_WhenShapeOverlapsWithTakenSpacesOnField_ReturnsFalse()
         {
             // Arrange

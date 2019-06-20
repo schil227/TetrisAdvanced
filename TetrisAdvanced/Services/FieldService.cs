@@ -17,7 +17,12 @@ namespace TetrisAdvanced.Services
         {
             foreach (var box in shape.Boxes)
             {
-                if (!field.Grid[box.X + field.ShapeX, box.Y + field.ShapeY].IsOpen)
+                var boxX = box.X + field.ShapeX;
+                var boxY = box.Y + field.ShapeY;
+
+                if (boxX < 0 || boxX >= field.Width ||
+                    boxY < 0 || boxY >= field.Height ||
+                    !field.Grid[box.X + field.ShapeX, box.Y + field.ShapeY].IsOpen)
                 {
                     return false;
                 }
@@ -52,7 +57,6 @@ namespace TetrisAdvanced.Services
                     // Shift down
                     for (int j = 0; j < field.Width; j++)
                     {
-                        //wrong - need to move position, and increment Y, as well as backfill
                         field.Grid[i + rowsCompleted, j] = field.Grid[i, j];
                         field.Grid[i + rowsCompleted, j].Y = i + rowsCompleted;
                     }
@@ -74,54 +78,6 @@ namespace TetrisAdvanced.Services
             }
 
             return (RowProcessingResult)rowsCompleted;
-        }
-
-        public ActiveShapeStatus MoveShape(Field field, MoveDirection direction, bool isForced)
-        {
-            int xOffset, yOffset;
-
-            CalculateOffset(direction, out xOffset, out yOffset);
-
-            var shadowShape = shapeService.CopyShape(field.ActiveShape);
-
-            shapeService.MoveShape(shadowShape, xOffset, yOffset);
-
-            if (CanMoveShape(field, shadowShape))
-            {
-                shapeService.MoveShape(field.ActiveShape, xOffset, yOffset);
-            }
-            else if (isForced || direction == MoveDirection.DOWN)
-            {
-                foreach (var box in field.ActiveShape.Boxes)
-                {
-                    field.Grid[box.X + field.ShapeX, box.Y + field.ShapeY].IsOpen = false;
-                }
-
-                HandleCompletedRows(field);
-
-                return ActiveShapeStatus.INACTIVE;
-            }
-
-            return ActiveShapeStatus.ACTIVE;
-        }
-
-        private void CalculateOffset(MoveDirection direction, out int xOffset, out int yOffset)
-        {
-            xOffset = 0;
-            yOffset = 0;
-
-            if (direction == MoveDirection.DOWN)
-            {
-                yOffset = 1;
-            }
-            else if (direction == MoveDirection.LEFT)
-            {
-                xOffset = -1;
-            }
-            else
-            {
-                xOffset = 1;
-            }
         }
     }
 }

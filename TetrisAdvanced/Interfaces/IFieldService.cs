@@ -5,7 +5,6 @@ namespace TetrisAdvanced.Interfaces
 {
     public interface IFieldService
     {
-        ActiveShapeStatus MoveShape(Field field, MoveDirection direction, bool isForced);
         bool CanMoveShape(Field field, Shape shape);
         RowProcessingResult HandleCompletedRows(Field field);
     }

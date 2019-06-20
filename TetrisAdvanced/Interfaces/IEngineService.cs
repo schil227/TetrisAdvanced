@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TetrisAdvanced.Data;
+using TetrisAdvanced.Data.Enumerators;
 
 namespace TetrisAdvanced.Interfaces
 {
-    interface IEngineService
+    public interface IEngineService
     {
         void Run();
+        ActiveShapeStatus MoveShape(Field field, MoveDirection direction);
     }
 }
