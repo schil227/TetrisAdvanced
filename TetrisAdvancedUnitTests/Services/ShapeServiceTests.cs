@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using TetrisAdvanced.Data;
-using TetrisAdvanced.Data.Enumerators;
+using TetrisAdvanced.Data.Enumerations;
 using TetrisAdvanced.Interfaces;
 using TetrisAdvanced.Services;
 using TetrisAdvanced.Services.Helpers;

@@ -1,4 +1,4 @@
-﻿namespace TetrisAdvanced.Data.Enumerators
+﻿namespace TetrisAdvanced.Data.Enumerations
 {
     public enum KeyInput
     {

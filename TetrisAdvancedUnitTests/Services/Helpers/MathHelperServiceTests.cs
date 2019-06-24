@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using TetrisAdvanced.Data;
-using TetrisAdvanced.Data.Enumerators;
+using TetrisAdvanced.Data.Enumerations;
 using TetrisAdvanced.Interfaces.Helpers;
 using TetrisAdvanced.Services.Helpers;
 

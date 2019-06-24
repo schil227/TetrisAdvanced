@@ -2,7 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using TetrisAdvanced.Data;
-using TetrisAdvanced.Data.Enumerators;
+using TetrisAdvanced.Data.Enumerations;
 using TetrisAdvanced.Interfaces;
 using TetrisAdvanced.Services;
 

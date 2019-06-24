@@ -12,6 +12,8 @@ namespace TetrisAdvanced
         {
             services.AddTransient<IMathHelperService, MathHelperService>();
             services.AddTransient<IShapeService, ShapeService>();
+            services.AddTransient<IFieldService, FieldService>();
+            services.AddTransient<IEngineService, EngineService>();
         }
     }
 }
