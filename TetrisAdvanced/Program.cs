@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using TetrisAdvanced.Interfaces;
 
 namespace TetrisAdvanced
 {
@@ -6,7 +10,15 @@ namespace TetrisAdvanced
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var serviceCollection = new ServiceCollection();
+
+            CompositionRoot.AddServices(serviceCollection);
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
+            var engineService = serviceProvider.GetService<IEngineService>();
+
+            engineService.Run();
         }
     }
 }

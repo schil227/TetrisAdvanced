@@ -4,6 +4,7 @@ using NUnit.Framework;
 using TetrisAdvanced.Data;
 using TetrisAdvanced.Data.Enumerations;
 using TetrisAdvanced.Interfaces;
+using TetrisAdvanced.Interfaces.Factories;
 using TetrisAdvanced.Services;
 
 namespace TetrisAdvancedUnitTests.Services
@@ -11,18 +12,22 @@ namespace TetrisAdvancedUnitTests.Services
     public class EngineServiceTests
     {
         private MockRepository moq;
+        private Mock<IEngineFactory> mockEngineFactory;
         private Mock<IFieldService> mockFieldService;
         private Mock<IShapeService> mockShapeService;
+        private Mock<IInputService> mockInputService;
         private IEngineService sut;
 
         [SetUp]
         public void SetUp()
         {
             moq = new MockRepository(MockBehavior.Strict);
+            mockEngineFactory = moq.Create<IEngineFactory>();
             mockFieldService = moq.Create<IFieldService>();
             mockShapeService = moq.Create<IShapeService>();
+            mockInputService = moq.Create<IInputService>();
 
-            sut = new EngineService(mockFieldService.Object, mockShapeService.Object);
+            sut = new EngineService(mockEngineFactory.Object, mockFieldService.Object, mockShapeService.Object, mockInputService.Object);
         }
 
         [TearDown]

@@ -10,5 +10,6 @@ namespace TetrisAdvanced.Data
         public IReadOnlyCollection<Shape> ShapeTypes { get; set; }
         public int rowsCompleted;
         public int speed;
+        public Random random;
     }
 }

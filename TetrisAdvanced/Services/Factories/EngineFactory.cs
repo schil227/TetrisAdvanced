@@ -45,7 +45,8 @@ namespace TetrisAdvanced.Services.Factories
                 field = field,
                 ShapeTypes = shapeTypes,
                 rowsCompleted = 0,
-                speed = 0
+                speed = 0,
+                random = new Random()
             };
         }
     }

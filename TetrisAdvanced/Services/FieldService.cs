@@ -1,4 +1,7 @@
-﻿using TetrisAdvanced.Data;
+﻿using System;
+using System.Linq;
+using System.Text;
+using TetrisAdvanced.Data;
 using TetrisAdvanced.Data.Enumerations;
 using TetrisAdvanced.Interfaces;
 
@@ -78,6 +81,34 @@ namespace TetrisAdvanced.Services
             }
 
             return (RowProcessingResult)rowsCompleted;
+        }
+
+        public void DrawField(Field field)
+        {
+            Console.Clear();
+
+            var drawnField = new StringBuilder();
+
+            for (int y = 0; y < field.Height; y++)
+            {
+                for (int x = 0; x < field.Width; x++)
+                {
+                    if (!field.Grid[x, y].IsOpen || field.ActiveShape.Boxes.Any(b => b.X == x && b.Y == y))
+                    {
+                        drawnField.Append('█');
+                    }
+                    else
+                    {
+                        drawnField.Append(' ');
+                    }
+                }
+                Console.WriteLine(drawnField);
+
+                drawnField.Clear();
+            }
+
+            Console.WriteLine();
+            Console.WriteLine(drawnField);
         }
     }
 }

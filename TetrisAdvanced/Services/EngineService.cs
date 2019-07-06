@@ -1,27 +1,62 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using TetrisAdvanced.Data;
 using TetrisAdvanced.Data.Enumerations;
 using TetrisAdvanced.Interfaces;
+using TetrisAdvanced.Interfaces.Factories;
 
 namespace TetrisAdvanced.Services
 {
     public class EngineService : IEngineService
     {
+        private readonly IEngineFactory engineFactory;
         private readonly IFieldService fieldService;
         private readonly IShapeService shapeService;
+        private readonly IInputService inputService;
 
         public EngineService(
+            IEngineFactory engineFactory,
             IFieldService fieldService,
-            IShapeService shapeService
+            IShapeService shapeService,
+            IInputService inputService
             )
         {
+            this.engineFactory = engineFactory;
             this.fieldService = fieldService;
             this.shapeService = shapeService;
+            this.inputService = inputService;
         }
 
         public void Run()
         {
-            throw new NotImplementedException();
+            var gameOver = false;
+
+            var engine = engineFactory.CreateEngine(8, 20);
+            SetNextActiveShape(engine);
+
+            var moveStep = new Stopwatch();
+            moveStep.Start();
+
+            while (!gameOver)
+            {
+                if (moveStep.ElapsedMilliseconds > 1500)
+                {
+                    moveStep.Restart();
+
+                    var activeShapeStatus = MoveShape(engine.field, MoveDirection.DOWN);
+                    fieldService.DrawField(engine.field);
+
+                    if (activeShapeStatus == ActiveShapeStatus.INACTIVE)
+                    {
+                        SetNextActiveShape(engine);
+                    }
+                }
+                else
+                {
+
+                }
+            }
         }
 
         public ActiveShapeStatus MoveShape(Field field, MoveDirection direction)
@@ -68,6 +103,11 @@ namespace TetrisAdvanced.Services
             {
                 xOffset = 1;
             }
+        }
+
+        private void SetNextActiveShape(Engine engine)
+        {
+            engine.field.ActiveShape = engine.ShapeTypes.ElementAt(engine.random.Next() % engine.ShapeTypes.Count);
         }
     }
 }
