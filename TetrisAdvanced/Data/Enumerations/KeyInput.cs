@@ -2,10 +2,12 @@
 {
     public enum KeyInput
     {
+        NO_COMMAND,
         MOVE_LEFT,
         MOVE_RIGHT,
         MOVE_DOWN,
         ROTATE_LEFT,
-        ROTATE_RIGHT
+        ROTATE_RIGHT,
+        QUIT
     }
 }

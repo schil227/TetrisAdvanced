@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Moq;
 using NUnit.Framework;
 using TetrisAdvanced.Data;
@@ -433,15 +435,16 @@ namespace TetrisAdvancedUnitTests.Services
                 ShapeX = 0,
                 ShapeY = 1,
                 ActiveShape = null,
-                Grid = new SpaceBox[5, 3]
-                {
-                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 3, IsOpen = true}, new SpaceBox{ X = 1, Y = 3, IsOpen = true}, new SpaceBox{ X = 2, Y = 3, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 4, IsOpen = true}, new SpaceBox{ X = 1, Y = 4, IsOpen = true}, new SpaceBox{ X = 2, Y = 4, IsOpen = true} }
-                }
+                Grid = new SpaceBox[3, 5]
+                        {
+                            {new SpaceBox{ X = 0, Y = 0, IsOpen = true },new SpaceBox{ X = 0, Y = 1, IsOpen = true },new SpaceBox{ X = 0, Y = 2, IsOpen = true },new SpaceBox{ X = 0, Y = 3, IsOpen = true },new SpaceBox{ X = 0, Y = 4, IsOpen = true }},
+                            {new SpaceBox{ X = 1, Y = 0, IsOpen = true },new SpaceBox{ X = 1, Y = 1, IsOpen = true },new SpaceBox{ X = 1, Y = 2, IsOpen = true },new SpaceBox{ X = 1, Y = 3, IsOpen = true },new SpaceBox{ X = 1, Y = 4, IsOpen = true }},
+                            {new SpaceBox{ X = 2, Y = 0, IsOpen = true },new SpaceBox{ X = 2, Y = 1, IsOpen = true },new SpaceBox{ X = 2, Y = 2, IsOpen = true },new SpaceBox{ X = 2, Y = 3, IsOpen = true },new SpaceBox{ X = 2, Y = 4, IsOpen = true }}
+                        }
+
             };
+
+            //OutputRealArr(field);
 
             // Act
             var result = sut.HandleCompletedRows(field);
@@ -469,13 +472,11 @@ namespace TetrisAdvancedUnitTests.Services
                 ShapeX = 0,
                 ShapeY = 1,
                 ActiveShape = null,
-                Grid = new SpaceBox[5, 3]
+                Grid = new SpaceBox[3, 5]
                 {
-                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 3, IsOpen = true}, new SpaceBox{ X = 1, Y = 3, IsOpen = true}, new SpaceBox{ X = 2, Y = 3, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 4, IsOpen = false}, new SpaceBox{ X = 1, Y = 4, IsOpen = true}, new SpaceBox{ X = 2, Y = 4, IsOpen = true} }
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true },new SpaceBox{ X = 0, Y = 1, IsOpen = true },new SpaceBox{ X = 0, Y = 2, IsOpen = true },new SpaceBox{ X = 0, Y = 3, IsOpen = true },new SpaceBox{ X = 0, Y = 4, IsOpen = false }},
+                    {new SpaceBox{ X = 1, Y = 0, IsOpen = true },new SpaceBox{ X = 1, Y = 1, IsOpen = true },new SpaceBox{ X = 1, Y = 2, IsOpen = true },new SpaceBox{ X = 1, Y = 3, IsOpen = true },new SpaceBox{ X = 1, Y = 4, IsOpen = true }},
+                    {new SpaceBox{ X = 2, Y = 0, IsOpen = true },new SpaceBox{ X = 2, Y = 1, IsOpen = true },new SpaceBox{ X = 2, Y = 2, IsOpen = true },new SpaceBox{ X = 2, Y = 3, IsOpen = true },new SpaceBox{ X = 2, Y = 4, IsOpen = true }}
                 }
             };
 
@@ -486,6 +487,7 @@ namespace TetrisAdvancedUnitTests.Services
             Assert.That(result, Is.EqualTo(RowProcessingResult.NO_ROWS));
             Assert.NotNull(field.Grid.Cast<SpaceBox>().SingleOrDefault(b => !b.IsOpen));
         }
+
 
         [Test]
         public void HandleCompletedRows_WhenRowIsCompleted_ClearsRow()
@@ -505,13 +507,11 @@ namespace TetrisAdvancedUnitTests.Services
                 ShapeX = 0,
                 ShapeY = 1,
                 ActiveShape = null,
-                Grid = new SpaceBox[5, 3]
+                Grid = new SpaceBox[3, 5]
                 {
-                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = true}, new SpaceBox{ X = 2, Y = 1, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 2, IsOpen = true}, new SpaceBox{ X = 1, Y = 2, IsOpen = true}, new SpaceBox{ X = 2, Y = 2, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 3, IsOpen = true}, new SpaceBox{ X = 1, Y = 3, IsOpen = true}, new SpaceBox{ X = 2, Y = 3, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 4, IsOpen = false}, new SpaceBox{ X = 1, Y = 4, IsOpen = false}, new SpaceBox{ X = 2, Y = 4, IsOpen = false} }
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = true },new SpaceBox{ X = 0, Y = 1, IsOpen = true },new SpaceBox{ X = 0, Y = 2, IsOpen = true },new SpaceBox{ X = 0, Y = 3, IsOpen = true },new SpaceBox{ X = 0, Y = 4, IsOpen = false }},
+                    {new SpaceBox{ X = 1, Y = 0, IsOpen = true },new SpaceBox{ X = 1, Y = 1, IsOpen = true },new SpaceBox{ X = 1, Y = 2, IsOpen = true },new SpaceBox{ X = 1, Y = 3, IsOpen = true },new SpaceBox{ X = 1, Y = 4, IsOpen = false }},
+                    {new SpaceBox{ X = 2, Y = 0, IsOpen = true },new SpaceBox{ X = 2, Y = 1, IsOpen = true },new SpaceBox{ X = 2, Y = 2, IsOpen = true },new SpaceBox{ X = 2, Y = 3, IsOpen = true },new SpaceBox{ X = 2, Y = 4, IsOpen = false }}
                 }
             };
 
@@ -539,13 +539,14 @@ namespace TetrisAdvancedUnitTests.Services
                 ShapeX = 0,
                 ShapeY = 1,
                 ActiveShape = null,
-                Grid = new SpaceBox[4, 3]
-                {
-                    {new SpaceBox{ X = 0, Y = 0, IsOpen = false}, new SpaceBox{ X = 1, Y = 0, IsOpen = false}, new SpaceBox{ X = 2, Y = 0, IsOpen = false} },
-                    {new SpaceBox{ X = 0, Y = 1, IsOpen = false}, new SpaceBox{ X = 1, Y = 1, IsOpen = false}, new SpaceBox{ X = 2, Y = 1, IsOpen = false} },
-                    {new SpaceBox{ X = 0, Y = 2, IsOpen = false}, new SpaceBox{ X = 1, Y = 2, IsOpen = false}, new SpaceBox{ X = 2, Y = 2, IsOpen = false} },
-                    {new SpaceBox{ X = 0, Y = 3, IsOpen = false}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = false} }
-                }
+                Grid = new SpaceBox[3, 4]
+
+                        {
+                            {new SpaceBox{ X = 0, Y = 0, IsOpen = false },new SpaceBox{ X = 0, Y = 1, IsOpen = false },new SpaceBox{ X = 0, Y = 2, IsOpen = false },new SpaceBox{ X = 0, Y = 3, IsOpen = false }},
+                            {new SpaceBox{ X = 1, Y = 0, IsOpen = false },new SpaceBox{ X = 1, Y = 1, IsOpen = false },new SpaceBox{ X = 1, Y = 2, IsOpen = false },new SpaceBox{ X = 1, Y = 3, IsOpen = false }},
+                            {new SpaceBox{ X = 2, Y = 0, IsOpen = false },new SpaceBox{ X = 2, Y = 1, IsOpen = false },new SpaceBox{ X = 2, Y = 2, IsOpen = false },new SpaceBox{ X = 2, Y = 3, IsOpen = false }}
+                        }
+
             };
 
             // Act
@@ -579,13 +580,11 @@ namespace TetrisAdvancedUnitTests.Services
                 ShapeX = 0,
                 ShapeY = 1,
                 ActiveShape = null,
-                Grid = new SpaceBox[5, 3]
+                Grid = new SpaceBox[3, 5]
                 {
-                    {new SpaceBox{ X = 0, Y = 0, IsOpen = false}, new SpaceBox{ X = 1, Y = 0, IsOpen = true}, new SpaceBox{ X = 2, Y = 0, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 1, IsOpen = true}, new SpaceBox{ X = 1, Y = 1, IsOpen = false}, new SpaceBox{ X = 2, Y = 1, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 2, IsOpen = false}, new SpaceBox{ X = 1, Y = 2, IsOpen = false}, new SpaceBox{ X = 2, Y = 2, IsOpen = false} },
-                    {new SpaceBox{ X = 0, Y = 3, IsOpen = true}, new SpaceBox{ X = 1, Y = 3, IsOpen = false}, new SpaceBox{ X = 2, Y = 3, IsOpen = true} },
-                    {new SpaceBox{ X = 0, Y = 4, IsOpen = false}, new SpaceBox{ X = 1, Y = 4, IsOpen = false}, new SpaceBox{ X = 2, Y = 4, IsOpen = false} }
+                    {new SpaceBox{ X = 0, Y = 0, IsOpen = false },new SpaceBox{ X = 0, Y = 1, IsOpen = true },new SpaceBox{ X = 0, Y = 2, IsOpen = false },new SpaceBox{ X = 0, Y = 3, IsOpen = true },new SpaceBox{ X = 0, Y = 4, IsOpen = false }},
+                    {new SpaceBox{ X = 1, Y = 0, IsOpen = true },new SpaceBox{ X = 1, Y = 1, IsOpen = false },new SpaceBox{ X = 1, Y = 2, IsOpen = false },new SpaceBox{ X = 1, Y = 3, IsOpen = false },new SpaceBox{ X = 1, Y = 4, IsOpen = false }},
+                    {new SpaceBox{ X = 2, Y = 0, IsOpen = true },new SpaceBox{ X = 2, Y = 1, IsOpen = true },new SpaceBox{ X = 2, Y = 2, IsOpen = false },new SpaceBox{ X = 2, Y = 3, IsOpen = true },new SpaceBox{ X = 2, Y = 4, IsOpen = false }}
                 }
             };
 

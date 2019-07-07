@@ -45,6 +45,9 @@ namespace TetrisAdvanced.Services
                 box.X += xOffset;
                 box.Y += yOffset;
             }
+
+            shape.CenterX += xOffset;
+            shape.CenterY += yOffset;
         }
 
         public Shape CopyShape(Shape shape)

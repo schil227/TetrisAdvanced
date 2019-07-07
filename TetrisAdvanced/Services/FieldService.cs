@@ -38,13 +38,13 @@ namespace TetrisAdvanced.Services
         {
             int rowsCompleted = 0;
 
-            for (int i = field.Height - 1; i >= 0; i--)
+            for (int y = field.Height - 1; y >= 0; y--)
             {
                 int boxesFilled = 0;
 
-                for (int j = 0; j < field.Width; j++)
+                for (int x = 0; x < field.Width; x++)
                 {
-                    if (!field.Grid[i, j].IsOpen)
+                    if (!field.Grid[x, y].IsOpen)
                     {
                         boxesFilled++;
                     }
@@ -58,23 +58,23 @@ namespace TetrisAdvanced.Services
                 else if (rowsCompleted > 0)
                 {
                     // Shift down
-                    for (int j = 0; j < field.Width; j++)
+                    for (int x = 0; x < field.Width; x++)
                     {
-                        field.Grid[i + rowsCompleted, j] = field.Grid[i, j];
-                        field.Grid[i + rowsCompleted, j].Y = i + rowsCompleted;
+                        field.Grid[x, y + rowsCompleted] = field.Grid[x, y];
+                        field.Grid[x, y + rowsCompleted].Y = y + rowsCompleted;
                     }
                 }
             }
 
             //clean up rows at the top
-            for (int i = 0; i < rowsCompleted; i++)
+            for (int y = 0; y < rowsCompleted; y++)
             {
-                for (int j = 0; j < field.Width; j++)
+                for (int x = 0; x < field.Width; x++)
                 {
-                    field.Grid[i, j] = new SpaceBox
+                    field.Grid[x, y] = new SpaceBox
                     {
-                        Y = i,
-                        X = j,
+                        Y = y,
+                        X = x,
                         IsOpen = true
                     };
                 }
@@ -91,6 +91,8 @@ namespace TetrisAdvanced.Services
 
             for (int y = 0; y < field.Height; y++)
             {
+                drawnField.Append("║");
+
                 for (int x = 0; x < field.Width; x++)
                 {
                     if (!field.Grid[x, y].IsOpen || field.ActiveShape.Boxes.Any(b => b.X == x && b.Y == y))
@@ -102,13 +104,25 @@ namespace TetrisAdvanced.Services
                         drawnField.Append(' ');
                     }
                 }
+                drawnField.Append("║");
                 Console.WriteLine(drawnField);
 
                 drawnField.Clear();
             }
 
-            Console.WriteLine();
+            drawnField.Append('╚');
+
+            for (int x = 0; x < field.Width; x++)
+            {
+                drawnField.Append('═');
+            }
+
+            drawnField.Append('╝');
+
             Console.WriteLine(drawnField);
+
+            Console.WriteLine();
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using TetrisAdvanced.Data;
 using TetrisAdvanced.Data.Enumerations;
 using TetrisAdvanced.Interfaces;
@@ -35,6 +36,8 @@ namespace TetrisAdvanced.Services
             var engine = engineFactory.CreateEngine(8, 20);
             SetNextActiveShape(engine);
 
+            var inputTask = Task.Factory.StartNew(() => inputService.HandleCommand(engine));
+
             var moveStep = new Stopwatch();
             moveStep.Start();
 
@@ -42,20 +45,74 @@ namespace TetrisAdvanced.Services
             {
                 if (moveStep.ElapsedMilliseconds > 1500)
                 {
-                    moveStep.Restart();
-
                     var activeShapeStatus = MoveShape(engine.field, MoveDirection.DOWN);
                     fieldService.DrawField(engine.field);
 
-                    if (activeShapeStatus == ActiveShapeStatus.INACTIVE)
-                    {
-                        SetNextActiveShape(engine);
-                    }
-                }
-                else
-                {
+                    moveStep.Restart();
 
+                    gameOver = HandleMovedShape(activeShapeStatus, engine);
                 }
+                else if (engine.keyPressed != KeyInput.NO_COMMAND)
+                {
+                    Console.WriteLine(engine.keyPressed);
+
+                    //hook up all the commands
+                    switch (engine.keyPressed)
+                    {
+                        case KeyInput.QUIT:
+                            gameOver = true;
+                            break;
+                        case KeyInput.MOVE_LEFT:
+                            {
+                                var activeShapeStatus = MoveShape(engine.field, MoveDirection.LEFT);
+                                fieldService.DrawField(engine.field);
+
+                                gameOver = HandleMovedShape(activeShapeStatus, engine);
+                                break;
+                            }
+                        case KeyInput.MOVE_RIGHT:
+                            {
+                                var activeShapeStatus = MoveShape(engine.field, MoveDirection.RIGHT);
+                                fieldService.DrawField(engine.field);
+
+                                gameOver = HandleMovedShape(activeShapeStatus, engine);
+                                break;
+                            }
+                        case KeyInput.MOVE_DOWN:
+                            {
+                                var activeShapeStatus = MoveShape(engine.field, MoveDirection.DOWN);
+                                fieldService.DrawField(engine.field);
+                                moveStep.Restart();
+
+                                gameOver = HandleMovedShape(activeShapeStatus, engine);
+                                break;
+                            }
+                        case KeyInput.ROTATE_LEFT:
+                            RotateShape(engine.field, RotationDirection.COUNTER_CLOCKWISE);
+                            fieldService.DrawField(engine.field);
+                            break;
+                        case KeyInput.ROTATE_RIGHT:
+                            RotateShape(engine.field, RotationDirection.CLOCKWISE);
+                            fieldService.DrawField(engine.field);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    engine.keyPressed = KeyInput.NO_COMMAND;
+                }
+            }
+        }
+
+        public void RotateShape(Field field, RotationDirection direction)
+        {
+            var shadowShape = shapeService.CopyShape(field.ActiveShape);
+
+            shapeService.Rotate(shadowShape, direction);
+
+            if (fieldService.CanMoveShape(field, shadowShape))
+            {
+                shapeService.Rotate(field.ActiveShape, direction);
             }
         }
 
@@ -105,9 +162,25 @@ namespace TetrisAdvanced.Services
             }
         }
 
+        private bool HandleMovedShape(ActiveShapeStatus shapeStatus, Engine engine)
+        {
+            if (shapeStatus == ActiveShapeStatus.ACTIVE)
+            {
+                return false;
+            }
+
+            var rowsCompleted = fieldService.HandleCompletedRows(engine.field);
+
+            engine.rowsCompleted += (int)rowsCompleted;
+
+            SetNextActiveShape(engine);
+
+            return !fieldService.CanMoveShape(engine.field, engine.field.ActiveShape);
+        }
+
         private void SetNextActiveShape(Engine engine)
         {
-            engine.field.ActiveShape = engine.ShapeTypes.ElementAt(engine.random.Next() % engine.ShapeTypes.Count);
+            engine.field.ActiveShape = shapeService.CopyShape(engine.ShapeTypes.ElementAt(engine.random.Next() % engine.ShapeTypes.Count));
         }
     }
 }
