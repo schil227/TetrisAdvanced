@@ -444,8 +444,6 @@ namespace TetrisAdvancedUnitTests.Services
 
             };
 
-            //OutputRealArr(field);
-
             // Act
             var result = sut.HandleCompletedRows(field);
 

@@ -34,7 +34,7 @@ namespace TetrisAdvanced.Services.Factories
                         new Box {X = 0, Y = 0},
                         new Box {X = 0, Y = 1},
                         new Box {X = 1, Y = 1},
-                        new Box {X = 1, Y = 2},
+                        new Box {X = 1, Y = 2}
                     }
             };
         }
@@ -51,7 +51,7 @@ namespace TetrisAdvanced.Services.Factories
                         new Box {X = 1, Y = 0},
                         new Box {X = 1, Y = 1},
                         new Box {X = 0, Y = 1},
-                        new Box {X = 0, Y = 2},
+                        new Box {X = 0, Y = 2}
                     }
             };
         }
@@ -69,7 +69,7 @@ namespace TetrisAdvanced.Services.Factories
                         new Box {X = 0, Y = 0},
                         new Box {X = 0, Y = 1},
                         new Box {X = 0, Y = 2},
-                        new Box {X = 1, Y = 2},
+                        new Box {X = 1, Y = 2}
                     }
             };
         }
@@ -87,7 +87,7 @@ namespace TetrisAdvanced.Services.Factories
                         new Box {X = 1, Y = 0},
                         new Box {X = 1, Y = 1},
                         new Box {X = 1, Y = 2},
-                        new Box {X = 0, Y = 2},
+                        new Box {X = 0, Y = 2}
                     }
             };
         }
@@ -104,7 +104,7 @@ namespace TetrisAdvanced.Services.Factories
                         new Box {X = 0, Y = 1},
                         new Box {X = 1, Y = 1},
                         new Box {X = 1, Y = 0},
-                        new Box {X = 2, Y = 1},
+                        new Box {X = 2, Y = 1}
                     }
             };
         }
@@ -120,9 +120,9 @@ namespace TetrisAdvanced.Services.Factories
                 Boxes = new List<Box>
                     {
                         new Box {X = 0, Y = 0},
+                        new Box {X = 1, Y = 0},
                         new Box {X = 1, Y = 1},
-                        new Box {X = 1, Y = 1},
-                        new Box {X = 2, Y = 2},
+                        new Box {X = 0, Y = 1}
                     }
             };
         }
@@ -140,7 +140,7 @@ namespace TetrisAdvanced.Services.Factories
                         new Box {X = 0, Y = 0},
                         new Box {X = 0, Y = 1},
                         new Box {X = 0, Y = 2},
-                        new Box {X = 0, Y = 3},
+                        new Box {X = 0, Y = 3}
                     }
             };
         }
