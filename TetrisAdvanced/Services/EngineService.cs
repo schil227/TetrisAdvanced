@@ -43,10 +43,10 @@ namespace TetrisAdvanced.Services
 
             while (!gameOver)
             {
-                if (moveStep.ElapsedMilliseconds > 1500)
+                if (moveStep.ElapsedMilliseconds > Math.Max((int)(1500 - (engine.rowsCompleted / 10) * 100), 250))
                 {
                     var activeShapeStatus = MoveShape(engine.field, MoveDirection.DOWN);
-                    fieldService.DrawField(engine.field);
+                    fieldService.DrawField(engine.field, engine.rowsCompleted);
 
                     moveStep.Restart();
 
@@ -65,7 +65,7 @@ namespace TetrisAdvanced.Services
                         case KeyInput.MOVE_LEFT:
                             {
                                 var activeShapeStatus = MoveShape(engine.field, MoveDirection.LEFT);
-                                fieldService.DrawField(engine.field);
+                                fieldService.DrawField(engine.field, engine.rowsCompleted);
 
                                 gameOver = HandleMovedShape(activeShapeStatus, engine);
                                 break;
@@ -73,7 +73,7 @@ namespace TetrisAdvanced.Services
                         case KeyInput.MOVE_RIGHT:
                             {
                                 var activeShapeStatus = MoveShape(engine.field, MoveDirection.RIGHT);
-                                fieldService.DrawField(engine.field);
+                                fieldService.DrawField(engine.field, engine.rowsCompleted);
 
                                 gameOver = HandleMovedShape(activeShapeStatus, engine);
                                 break;
@@ -81,7 +81,7 @@ namespace TetrisAdvanced.Services
                         case KeyInput.MOVE_DOWN:
                             {
                                 var activeShapeStatus = MoveShape(engine.field, MoveDirection.DOWN);
-                                fieldService.DrawField(engine.field);
+                                fieldService.DrawField(engine.field, engine.rowsCompleted);
                                 moveStep.Restart();
 
                                 gameOver = HandleMovedShape(activeShapeStatus, engine);
@@ -89,11 +89,11 @@ namespace TetrisAdvanced.Services
                             }
                         case KeyInput.ROTATE_LEFT:
                             RotateShape(engine.field, RotationDirection.COUNTER_CLOCKWISE);
-                            fieldService.DrawField(engine.field);
+                            fieldService.DrawField(engine.field, engine.rowsCompleted);
                             break;
                         case KeyInput.ROTATE_RIGHT:
                             RotateShape(engine.field, RotationDirection.CLOCKWISE);
-                            fieldService.DrawField(engine.field);
+                            fieldService.DrawField(engine.field, engine.rowsCompleted);
                             break;
                         default:
                             break;
@@ -102,6 +102,8 @@ namespace TetrisAdvanced.Services
                     engine.keyPressed = KeyInput.NO_COMMAND;
                 }
             }
+
+            Console.WriteLine("Game over.");
         }
 
         public void RotateShape(Field field, RotationDirection direction)

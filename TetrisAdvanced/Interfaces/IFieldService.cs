@@ -7,6 +7,6 @@ namespace TetrisAdvanced.Interfaces
     {
         bool CanMoveShape(Field field, Shape shape);
         RowProcessingResult HandleCompletedRows(Field field);
-        void DrawField(Field field);
+        void DrawField(Field field, int rowsCompleted);
     }
 }

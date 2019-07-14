@@ -83,7 +83,7 @@ namespace TetrisAdvanced.Services
             return (RowProcessingResult)rowsCompleted;
         }
 
-        public void DrawField(Field field)
+        public void DrawField(Field field, int rowsCompleted)
         {
             Console.Clear();
 
@@ -120,6 +120,8 @@ namespace TetrisAdvanced.Services
             drawnField.Append('╝');
 
             Console.WriteLine(drawnField);
+            Console.WriteLine("Level: " + rowsCompleted / 10);
+            Console.WriteLine("Rows: " + rowsCompleted);
 
             Console.WriteLine();
 

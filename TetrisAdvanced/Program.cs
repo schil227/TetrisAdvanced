@@ -18,7 +18,16 @@ namespace TetrisAdvanced
 
             var engineService = serviceProvider.GetService<IEngineService>();
 
-            engineService.Run();
+            ConsoleKey choice;
+
+            do
+            {
+                engineService.Run();
+
+                Console.WriteLine("\nAnother Round? (y/n): ");
+                choice = Console.ReadKey().Key;
+            }
+            while (choice == ConsoleKey.Y);
         }
     }
 }
